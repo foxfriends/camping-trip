@@ -1,0 +1,42 @@
+{
+  "name": "camping-trip",
+  "version": "1.0.0",
+  "description": "A text-only game about going camping.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "parcel serve ./src/index.html",
+    "build": "parcel build ./src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/foxfriends/camping-trip.git"
+  },
+  "keywords": [
+    "game",
+    "text",
+    "camping"
+  ],
+  "author": "Cameron Eldridge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/foxfriends/camping-trip/issues"
+  },
+  "homepage": "https://github.com/foxfriends/camping-trip#readme",
+  "browserslist": "last 1 version",
+  "devDependencies": {
+    "autoprefixer": "^9.8.6",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-svelte": "^4.0.6",
+    "postcss": "^7.0.32",
+    "postcss-load-config": "^2.1.0",
+    "postcss-nested": "^4.2.3",
+    "postcss-preset-env": "^6.7.0",
+    "svelte": "^3.24.1",
+    "svelte-check": "^1.0.25",
+    "svelte-preprocess": "^4.1.1",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "inkjs": "^1.11.0"
+  }
+}
