@@ -1,0 +1,70 @@
+<script lang='typescript'>
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
+
+  export let symbol = '>';
+  export let value = '';
+
+  $: value = value.slice(0, 64);
+
+  let input;
+  function focus() { input.focus(); }
+  function submit() {
+    dispatch('submit', value);
+  }
+</script>
+
+<div class='prompt' on:click={focus}>
+  <span class='symbol'>{symbol}</span> <input type='text' bind:value bind:this={input} on:submit={submit} />
+  <button on:click={submit}>
+    ↩ Enter
+  </button>
+</div>
+
+<style>
+  .prompt {
+    display: flex;
+    padding: 1em 0 3em 0;
+    width: 100%;
+    font: var(--Prompt__font, var(--font--default));
+    cursor: text;
+    align-items: center;
+  }
+
+  .symbol {
+    color: var(--color--content);
+    opacity: 0.48;
+  }
+
+  button {
+    padding: 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    color: var(--color--content);
+    background: none;
+    font: var(--Prompt__font, var(--font--default));
+    font-size: smaller;
+    opacity: 0.24;
+    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.48;
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      opacity: 0.48;
+      transform: translateY(2px);
+    }
+  }
+
+  input {
+    border: none;
+    background: none;
+    padding: 0 1ch;
+    flex-grow: 1;
+    font: var(--Prompt_font, var(--font--default));
+    color: var(--color--content);
+  }
+</style>
