@@ -25,14 +25,16 @@
   "browserslist": "last 1 version",
   "devDependencies": {
     "autoprefixer": "^9.8.6",
+    "inklecate": "^1.8.1",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-ink": "git+https://github.com/foxfriends/parcel-plugin-ink.git",
     "parcel-plugin-svelte": "^4.0.6",
     "postcss": "^7.0.32",
     "postcss-load-config": "^2.1.0",
     "postcss-nested": "^4.2.3",
     "postcss-preset-env": "^6.7.0",
     "svelte": "^3.24.1",
-    "svelte-check": "^1.0.25",
+    "svelte-check": "^1.0.28",
     "svelte-preprocess": "^4.1.1",
     "typescript": "^4.0.2"
   },

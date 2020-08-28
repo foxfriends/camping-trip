@@ -9,13 +9,12 @@
 
   let input;
   function focus() { input.focus(); }
-  function submit() {
-    dispatch('submit', value);
-  }
+  function keydown({ key }) { if (key === 'Enter') { submit() } }
+  function submit() { dispatch('submit', value); }
 </script>
 
 <div class='prompt' on:click={focus}>
-  <span class='symbol'>{symbol}</span> <input type='text' bind:value bind:this={input} on:submit={submit} />
+  <span class='symbol'>{symbol}</span> <input type='text' autofocus bind:value bind:this={input} on:keydown={keydown} />
   <button on:click={submit}>
     ↩ Enter
   </button>
@@ -66,5 +65,6 @@
     flex-grow: 1;
     font: var(--Prompt_font, var(--font--default));
     color: var(--color--content);
+    outline: none;
   }
 </style>

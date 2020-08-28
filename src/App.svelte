@@ -1,18 +1,29 @@
 <script lang='typescript'>
   import Prompt from './Prompt.svelte';
+
+  export let story;
+
+  let lines = [story.Continue()];
+  function step({ detail: input }) {
+    if (story.canContinue) {
+      lines = [...lines, story.Continue()];
+    } else {
+      console.log(input);
+    }
+  }
 </script>
 
 <div class='layout'>
   <main>
     <div class='content'>
-      <p>Hello.</p>
-
-      <p>Let's go camping.</p>
+      {#each lines as line}
+        <p>{line}</p>
+      {/each}
     </div>
   </main>
   <footer>
     <div class='content'>
-      <Prompt />
+      <Prompt on:submit={step} />
     </div>
   </footer>
 </div>
