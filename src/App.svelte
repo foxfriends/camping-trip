@@ -1,29 +1,30 @@
 <script lang='typescript'>
   import Prompt from './Prompt.svelte';
+  import Story from './Story.svelte';
 
   export let story;
 
-  let lines = [story.Continue()];
+  let runner;
+  let options;
+
   function step({ detail: input }) {
-    if (story.canContinue) {
-      lines = [...lines, story.Continue()];
-    } else {
-      console.log(input);
+    const index = options && options.indexOf(input);
+    if (input) {
+      runner.addLine(input);
     }
+    ({ value: options } = runner.next(index));
   }
 </script>
 
 <div class='layout'>
   <main>
     <div class='content'>
-      {#each lines as line}
-        <p>{line}</p>
-      {/each}
+      <Story {story} bind:this={runner} />
     </div>
   </main>
   <footer>
     <div class='content'>
-      <Prompt on:submit={step} />
+      <Prompt on:submit={step} disabled={!options} />
     </div>
   </footer>
 </div>

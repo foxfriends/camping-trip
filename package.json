@@ -22,7 +22,7 @@
     "url": "https://github.com/foxfriends/camping-trip/issues"
   },
   "homepage": "https://github.com/foxfriends/camping-trip#readme",
-  "browserslist": "last 1 version",
+  "browserslist": "last 1 firefox version, last 1 chrome version",
   "devDependencies": {
     "autoprefixer": "^9.8.6",
     "inklecate": "^1.8.1",
