@@ -10,7 +10,7 @@
   function step({ detail: input }) {
     const index = options && options.indexOf(input);
     if (input) {
-      runner.addLine(input);
+      runner.addLine(input, index === -1 ? 'input no-match' : 'input match');
     }
     ({ value: options } = runner.next(index));
   }
