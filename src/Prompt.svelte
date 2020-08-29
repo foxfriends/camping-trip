@@ -16,13 +16,13 @@
 
   function keydown({ key }) {
     if (key === 'Enter') {
-      submit(event.originalTarget === input && !disabled ? value : undefined);
-      if (!disabled) { value = ''; }
+      submit();
     }
   }
 
-  function submit(value) {
-    dispatch('submit', value);
+  function submit() {
+    dispatch('submit', !disabled ? value : undefined);
+    if (!disabled) { value = ''; }
   }
 </script>
 
