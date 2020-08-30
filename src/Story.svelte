@@ -1,16 +1,19 @@
-<script>
+<script lang='typescript'>
+  import type { Story } from 'inkjs/engine/runtime';
   import { fly } from 'svelte/transition';
 
-  export let story;
+  export let story: Story;
 
-  let lines = [];
+  type Line = [string, string];
 
-  export function addLine(line, style = '') {
+  let lines: Line[] = [];
+
+  export function addLine(line: string, style: string = '') {
     lines.push([line, style]);
     lines = lines;
   }
 
-  function * pick(options) {
+  function * pick(options: string[]) {
     for (;;) {
       const option = yield options;
       if (option >= 0 && option < options.length) {
@@ -19,11 +22,11 @@
     }
   }
 
-  function * play(story) {
+  function * play(story: Story) {
     for (;;) {
       for (;;) {
-        const line = story.Continue();
-        addLine(line, story.currentTags.join(' '));
+        const line = story.Continue()!;
+        addLine(line, (story.currentTags || []).join(' '));
         if (!story.canContinue) break;
         yield;
       }
@@ -36,7 +39,9 @@
   }
 
   const state = play(story);
-  export function next(option) { return state.next(option); }
+  export function next(option: number | undefined): IteratorResult<string[] | undefined, void> {
+    return state.next(option);
+  }
 </script>
 
 {#each lines as [line, style]}
@@ -46,20 +51,18 @@
 <style>
   .line {
     margin-bottom: 1ch;
+  }
 
-    &.input {
-      &::before {
-        content: '>';
-        margin-right: 1ch;
-      }
+  .line.input::before {
+    content: '>';
+    margin-right: 1ch;
+  }
 
-      &.match {
-        opacity: 0.48;
-      }
+  .line.input.match {
+    opacity: 0.48;
+  }
 
-      &.no-match {
-        opacity: 0.24;
-      }
-    }
+  .line.input.no-match {
+    opacity: 0.24;
   }
 </style>

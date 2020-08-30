@@ -1,18 +1,24 @@
 <script lang='typescript'>
+  import type { Story as InkStory } from 'inkjs/engine/runtime';
   import Prompt from './Prompt.svelte';
   import Story from './Story.svelte';
+  import Matcher from './Matcher';
 
-  export let story;
+  export let story: InkStory;
 
-  let runner;
-  let options;
+  let runner: Story;
+  let options: string[] | undefined;
+  $: matcher = options && new Matcher(options);
 
-  function step({ detail: input }) {
-    const index = options && options.indexOf(input);
+  function step({ detail: input }: CustomEvent<string | undefined>) {
+    const index = matcher && input && matcher.match(input);
     if (input) {
       runner.addLine(input, index === -1 ? 'input no-match' : 'input match');
     }
-    ({ value: options } = runner.next(index));
+    const result = runner.next(index || undefined);
+    if (!result.done) {
+      options = result.value;
+    }
   }
 </script>
 
@@ -82,9 +88,10 @@
     flex-grow: 1;
     overflow: auto;
 
-    & .content {
-      padding-top: 2em;
-    }
+  }
+
+  main .content {
+    padding-top: 2em;
   }
 
   footer {

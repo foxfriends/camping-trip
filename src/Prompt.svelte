@@ -2,19 +2,19 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let symbol = '>';
-  export let value = '';
-  export let disabled = false;
+  export let symbol: string = '>';
+  export let value: string = '';
+  export let disabled: boolean = false;
 
   $: value = value.slice(0, 64);
 
-  let input;
+  let input: HTMLInputElement;
 
   function focus() {
     input.focus();
   }
 
-  function keydown({ key }) {
+  function keydown({ key }: KeyboardEvent) {
     if (key === 'Enter') {
       submit();
     }
@@ -48,23 +48,18 @@
     font: var(--Prompt__font, var(--font--default));
     cursor: text;
     align-items: center;
+  }
+  .prompt.disabled input,
+  .prompt.disabled .symbol {
+    opacity: 0.24;
+  }
 
-    &.disabled {
-      & input,
-      & .symbol {
-        opacity: 0.24;
-      }
+  .prompt.disabled button {
+    opacity: 0.48;
+  }
 
-      & button {
-        opacity: 0.48;
-      }
-    }
-
-    &:not(.disabled) {
-      & input:not(:placeholder-shown) + button {
-        opacity: 0.48;
-      }
-    }
+  .prompt:not(.disabled) input:not(:placeholder-shown) + button {
+    opacity: 0.48;
   }
 
   .symbol {
@@ -84,16 +79,16 @@
     opacity: 0.24;
     transition: opacity 0.2s, transform 0.2s;
     cursor: pointer;
+  }
 
-    &:hover {
-      opacity: 0.48;
-      transform: translateY(-2px);
-    }
+  button:hover {
+    opacity: 0.48;
+    transform: translateY(-2px);
+  }
 
-    &:active {
-      opacity: 0.48;
-      transform: translateY(2px);
-    }
+  button:active {
+    opacity: 0.48;
+    transform: translateY(2px);
   }
 
   input {

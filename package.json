@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "parcel serve ./src/index.html",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html",
+    "check": "svelte-check && tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/foxfriends/camping-trip#readme",
   "browserslist": "last 1 firefox version, last 1 chrome version",
   "devDependencies": {
+    "@tsconfig/svelte": "^1.0.10",
     "autoprefixer": "^9.8.6",
     "inklecate": "^1.8.1",
     "parcel-bundler": "^1.12.4",
