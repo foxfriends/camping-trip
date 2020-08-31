@@ -18,7 +18,7 @@
   function * pick(options: string[]) {
     for (;;) {
       const option = yield options;
-      if (option >= 0 && option < options.length) {
+      if (typeof option === 'number' && option >= 0 && option < options.length) {
         return option;
       }
     }

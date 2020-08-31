@@ -15,7 +15,7 @@
     if (input) {
       runner.addLine(input, index === -1 ? 'input no-match' : 'input match');
     }
-    const result = runner.next(index || undefined);
+    const result = runner.next(typeof index === 'number' ? index : undefined);
     if (!result.done) {
       options = result.value;
     }
