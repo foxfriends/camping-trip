@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let symbol: string = '>';
+  export let prompt: string = '>';
   export let value: string = '';
   export let disabled: boolean = false;
 
@@ -26,8 +26,8 @@
   }
 </script>
 
-<div class='prompt' class:disabled on:click={focus}>
-  <span class='symbol'>{symbol}</span>
+<div class='container' class:disabled on:click={focus}>
+  <span class='prompt'>{prompt}</span>
   <input
     type='text'
     autofocus
@@ -41,7 +41,7 @@
 </div>
 
 <style>
-  .prompt {
+  .container {
     display: flex;
     padding: 1em 0 3em 0;
     width: 100%;
@@ -49,20 +49,21 @@
     cursor: text;
     align-items: center;
   }
-  .prompt.disabled input,
-  .prompt.disabled .symbol {
+
+  .container.disabled input,
+  .container.disabled .prompt {
     opacity: 0.24;
   }
 
-  .prompt.disabled button {
+  .container.disabled button {
     opacity: 0.48;
   }
 
-  .prompt:not(.disabled) input:not(:placeholder-shown) + button {
+  .container:not(.disabled) input:not(:placeholder-shown) + button {
     opacity: 0.48;
   }
 
-  .symbol {
+  .prompt {
     color: var(--color--content);
     opacity: 0.48;
     transition: opacity 0.2s;

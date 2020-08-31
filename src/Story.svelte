@@ -4,12 +4,14 @@
 
   export let story: Story;
 
-  type Line = [string, string];
-
+  type Line = {
+    line: string;
+    style: string;
+  };
   let lines: Line[] = [];
 
   export function addLine(line: string, style: string = '') {
-    lines.push([line, style]);
+    lines.push({ line, style });
     lines = lines;
   }
 
@@ -44,7 +46,7 @@
   }
 </script>
 
-{#each lines as [line, style]}
+{#each lines as { line, style }}
   <p class='line {style}' transition:fly={{ y: 10, opacity: 0 }}>{line}</p>
 {/each}
 
