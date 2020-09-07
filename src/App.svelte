@@ -1,4 +1,5 @@
 <script lang='typescript'>
+  import { onMount } from 'svelte';
   import type { Story as InkStory } from 'inkjs/engine/runtime';
   import Prompt from './Prompt.svelte';
   import Story from './Story.svelte';
@@ -10,16 +11,18 @@
   let options: string[] | undefined;
   $: matcher = options && new Matcher(options);
 
-  function step({ detail: input }: CustomEvent<string | undefined>) {
+  function step({ detail: input }: CustomEvent<string | undefined> = {}) {
     const index = matcher && input && matcher.match(input);
     if (input) {
-      runner.addLine(input, index === -1 ? 'input no-match' : 'input match');
+      runner.addLine([input], index === -1 ? 'input no-match' : 'input match');
     }
     const result = runner.next(typeof index === 'number' ? index : undefined);
     if (!result.done) {
       options = result.value;
     }
   }
+
+  onMount(step);
 </script>
 
 <div class='layout'>
@@ -40,6 +43,7 @@
     :root {
       --color--background: #f7f7f7;
       --color--content: #0a0a0a;
+      --color--content-secondary: #0a0a0a80;
       --color--shadow: rgba(0, 0, 0, 0.05);
     }
   }
@@ -48,6 +52,7 @@
     :root {
       --color--background: #111111;
       --color--content: #fafafa;
+      --color--content-secondary: #fafafa80;
       --color--shadow: rgba(0, 0, 0, 0.7);
     }
   }
@@ -79,6 +84,7 @@
   }
 
   .content {
+    position: relative;
     box-sizing: border-box;
     width: 80ch;
     margin: 0 auto;
@@ -87,7 +93,6 @@
   main {
     flex-grow: 1;
     overflow: auto;
-
   }
 
   main .content {

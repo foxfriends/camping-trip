@@ -4,13 +4,19 @@
 
   export let story: Story;
 
+  type Span = [string, string];
+  type Spanned = (string | Span)[];
+
   type Line = {
-    line: string;
+    line: Spanned;
     style: string;
   };
   let lines: Line[] = [];
 
-  export function addLine(line: string, style: string = '') {
+  const spanned = (segments: string[], ...spans: Span[]): Spanned => segments
+    .reduce((out, segment, i): Spanned => [...out, segment, spans[i] || ''], [] as Spanned);
+
+  export function addLine(line: Spanned, style: string = '') {
     lines.push({ line, style });
     lines = lines;
   }
@@ -28,7 +34,12 @@
     for (;;) {
       for (;;) {
         const line = story.Continue()!;
-        addLine(line, (story.currentTags || []).join(' '));
+        const segments = line.split(/<[^>]*>/g);
+        const spans = [...line.matchAll(/<([^>]*)>/g)]
+          .map(([, content]) => content.split(':'))
+          .map(([span, content]) => [content ? span : 'object', content || span] as Span);
+        const text = spanned(segments, ...spans);
+        addLine(text, (story.currentTags || []).join(' '));
         if (!story.canContinue) break;
         yield;
       }
@@ -47,8 +58,22 @@
 </script>
 
 {#each lines as { line, style }}
-  <p class='line {style}' transition:fly={{ y: 10, opacity: 0 }}>{line}</p>
+  <p class='line {style}' transition:fly={{ y: 10, opacity: 0 }}>
+    {#each line as span}
+      {#if typeof span === 'string'}
+        {span}
+      {:else}
+        <span class={span[0]}>{span[1]}</span>
+      {/if}
+    {/each}
+  </p>
 {/each}
+{#if story.canContinue}
+  <p class='arrow'>↩</p>
+{/if}
+{#if !story.canContinue && story.currentChoices}
+  <p class='prompt' in:fly={{ x: -10, opacity: 0, delay: 500 }}>What do you do?</p>
+{/if}
 
 <style>
   .line {
@@ -66,5 +91,35 @@
 
   .line.input.no-match {
     opacity: 0.24;
+  }
+
+  .arrow {
+    opacity: 0.24;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  .prompt {
+    transform: translateX(-16ch);
+    font-variant-caps: all-small-caps;
+    font-size: smaller;
+    opacity: 0.48;
+  }
+
+  .gps {
+    text-transform: uppercase;
+    color: var(--color--content-secondary);
+    padding: 2em 0;
+    font-size: smaller;
+    text-align: center;
+  }
+
+  .scene {
+    color: var(--color--content-secondary);
+  }
+
+  .object {
+    color: var(--color--content);
   }
 </style>

@@ -2,7 +2,7 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "lib": ["es2016", "dom"],
+    "lib": ["es2016", "dom", "es2020.string"],
     "module": "es6",
     "target": "es6",
     "allowJs": true

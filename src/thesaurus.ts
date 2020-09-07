@@ -21,4 +21,4 @@ export default new Thesaurus()
   .addGroup('yes', 'yeah', 'ok', 'y')
   .addGroup('move', 'go', 'walk', 'run', 'enter', 'to', 'goto')
   .addGroup('take', 'grab', 'hold', 'pick up')
-  .addGroup('look at', 'see', 'view', 'examine');
+  .addGroup('look at', 'see', 'view', 'examine', 'look around');
